@@ -1,20 +1,18 @@
-
 <div *ngIf="movies.length>0; else no_movies">
   <h1>{{ title }}</h1>
 
   <div class="alert alert-warning" *ngIf="movies.length>0">
-    {{ movies.length }} film bulundu.
+    {{ movies.length }} Movie found.
   </div>
 
+  <ng-template [ngTemplateOutlet]="movieList2" [ngTemplateOutletContext]="{ movies: popularMovies }"></ng-template>
   <ng-template [ngTemplateOutlet]="movieList1"></ng-template>
-  <ng-template [ngTemplateOutlet]="movieList2"></ng-template>
-  <ng-template [ngTemplateOutlet]="movieList3" [ngTemplateOutletContext]="{ movies: movieRepository.getMovies() }"></ng-template>
 
 </div>
 
 <ng-template #no_movies>
-  <div class="alert alert-warning" >
-    Film bulunamadı.
+  <div class="alert alert-warning">
+    Movie not found.
   </div>
 </ng-template>
 
@@ -35,8 +33,27 @@
   </div>
 </ng-template>
 
-<ng-template #movieList2>
-  <div class="card mb-3" *ngFor="let item of movies">
+<ng-template #movieList2 let-movies="movies">
+
+  <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+    <div class="col" *ngFor="let item of movies">
+
+      <div class="card h-100">
+        <img src="/assets/img/{{ item.imageUrl }}" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <p class="card-text">{{ item.description }}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #movieList3 let-popularMovies="movies">
+  <h2>Popular Movies</h2>
+  <div class="card mb-3" *ngFor="let item of popularMovies">
     <div class="row">
       <div class="col-md-2">
         <img src="/assets/img/{{ item.imageUrl }}" class="img-fluid rounded-start" alt="">
@@ -51,22 +68,3 @@
     </div>
   </div>
 </ng-template>
-
-<ng-template #movieList3 let-populerFilmler="movies">
-  <h2>Popular Filmler</h2>
-  <div class="card mb-3" *ngFor="let item of populerFilmler">
-    <div class="row">
-      <div class="col-md-2">
-        <img src="/assets/img/{{ item.imageUrl }}" class="img-fluid rounded-start" alt="">
-      </div>
-      <div class="col-md-10">
-        <div class="card-body">
-          <h2 class="card-title">{{ item.title }}</h2>
-          <p class="card-text">{{ item.description }}</p>
-          <button class="btn btn-sm btn-outline-primary">Details</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
