@@ -12,9 +12,10 @@ import { FooterComponent } from './footer/footer.component';
 import { SummaryPipe } from './pipes/summary.pipe';
 import { FormsModule } from '@angular/forms';
 import { MovieFilterPipe } from './pipes/movie-filter.pipe';
+import { AlertifyService } from './services/alertify.service';
 
 @NgModule({
-  declarations: [
+  declarations: [ // components
     AppComponent,
     NavbarComponent,
     CategoryComponent,
@@ -25,12 +26,12 @@ import { MovieFilterPipe } from './pipes/movie-filter.pipe';
     SummaryPipe,
     MovieFilterPipe,
   ],
-  imports: [
+  imports: [ // module
     BrowserModule,
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [AlertifyService], // services
+  bootstrap: [AppComponent] // starter component
 })
 export class AppModule { }
