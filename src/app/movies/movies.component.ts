@@ -1,8 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Movie } from '../models/movie';
 import { MovieRepository } from '../models/movie.repository';
 import { AlertifyService } from '../services/alertify.service';
-
 
 @Component({
   selector: 'app-movies',
@@ -11,19 +11,27 @@ import { AlertifyService } from '../services/alertify.service';
 })
 export class MoviesComponent implements OnInit {
   title = 'Movie List';
-  movies: Movie[];
-  filteredMovies: Movie[];
-  movieRepository: MovieRepository;
+  movies: Movie[] = [];
+  filteredMovies: Movie[] = [];
 
   filterText: string = '';
 
-  constructor(private alertify: AlertifyService ) {
-    this.movieRepository = new MovieRepository();
-    this.movies = this.movieRepository.getMovies();
-    this.filteredMovies = this.movies;
+  constructor(private alertify: AlertifyService, private http: HttpClient) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.http.get<Movie[]>("http://localhost:3000/movies").subscribe(data => {
+      this.movies = data;
+      this.filteredMovies = this.movies;
+
+      console.log(this.movies);
+      console.log(this.filteredMovies);
+    });
+
+    this.http.get("https://jsonplaceholder.typicode.com/users").subscribe(data => {
+      console.log(data);
+    })
+  }
 
   onInputChange() {
     this.filteredMovies = this.filterText
@@ -37,17 +45,17 @@ export class MoviesComponent implements OnInit {
 
   addToList($event: any, movie: Movie) {
     if ($event.target.classList.contains('btn-primary')) {
-      $event.target.innerText = "Listeden Çıkar"
+      $event.target.innerText = 'Listeden Çıkar';
       $event.target.classList.remove('btn-primary');
       $event.target.classList.add('btn-danger');
 
-      this.alertify.success(movie.title + ' listeye eklendi')
+      this.alertify.success(movie.title + ' listeye eklendi');
     } else {
-      $event.target.innerText = "Listeye Ekle";
+      $event.target.innerText = 'Listeye Ekle';
       $event.target.classList.remove('btn-danger');
       $event.target.classList.add('btn-primary');
 
-      this.alertify.error(movie.title + ' listeden çıkarıldı')
+      this.alertify.error(movie.title + ' listeden çıkarıldı');
     }
   }
 }

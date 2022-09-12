@@ -13,6 +13,7 @@ import { SummaryPipe } from './pipes/summary.pipe';
 import { FormsModule } from '@angular/forms';
 import { MovieFilterPipe } from './pipes/movie-filter.pipe';
 import { AlertifyService } from './services/alertify.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [ // components
@@ -29,7 +30,8 @@ import { AlertifyService } from './services/alertify.service';
   imports: [ // module
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [AlertifyService], // services
   bootstrap: [AppComponent] // starter component
