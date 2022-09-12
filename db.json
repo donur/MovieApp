@@ -7,9 +7,9 @@
         { "id": 5, "title": "Movie 5", "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita amet fuga sit cum odio non fugit consequuntur incidunt voluptas architecto. Quos, cupiditate. Ipsa iure, accusantium dignissimos nostrum minima enim molestias!", "imageUrl": "adventure-1.jpeg", "isPopular": 0}
     ],
     "categories": [
-        {"id": 1, "title": "Adventure"},
-        {"id": 2, "title": "Romance"},
-        {"id": 3, "title": "Drama"},
-        {"id": 4, "title": "Comedy"}
+        {"id": 1, "name": "Adventure"},
+        {"id": 2, "name": "Romance"},
+        {"id": 3, "name": "Drama"},
+        {"id": 4, "name": "Comedy"}
     ]
 }
