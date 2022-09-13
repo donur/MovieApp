@@ -15,6 +15,7 @@ export class MoviesComponent implements OnInit {
   filteredMovies: Movie[] = [];
 
   filterText: string = '';
+  error: any;
 
   constructor(
     private alertify: AlertifyService,
@@ -25,9 +26,10 @@ export class MoviesComponent implements OnInit {
     this.movieService.getMovies().subscribe((data) => {
       this.movies = data;
       this.filteredMovies = this.movies;
+    }, error => {
+      this.error = error;
+      console.log(this.error);
 
-      console.log(this.movies);
-      console.log(this.filteredMovies);
     });
   }
 
@@ -43,17 +45,17 @@ export class MoviesComponent implements OnInit {
 
   addToList($event: any, movie: Movie) {
     if ($event.target.classList.contains('btn-primary')) {
-      $event.target.innerText = 'Listeden Çıkar';
+      $event.target.innerText = 'Remove from list';
       $event.target.classList.remove('btn-primary');
       $event.target.classList.add('btn-danger');
 
-      this.alertify.success(movie.title + ' listeye eklendi');
+      this.alertify.success(movie.title + ' Added to list');
     } else {
-      $event.target.innerText = 'Listeye Ekle';
+      $event.target.innerText = 'Add to List';
       $event.target.classList.remove('btn-danger');
       $event.target.classList.add('btn-primary');
 
-      this.alertify.error(movie.title + ' listeden çıkarıldı');
+      this.alertify.error(movie.title + ' Removed from list');
     }
   }
 }
