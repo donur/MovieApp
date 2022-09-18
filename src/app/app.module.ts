@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { MovieFilterPipe } from './pipes/movie-filter.pipe';
 import { AlertifyService } from './services/alertify.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MovieCreateComponent } from './movie-create/movie-create.component';
 
 @NgModule({
   declarations: [ // components
@@ -26,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     FooterComponent,
     SummaryPipe,
     MovieFilterPipe,
+    MovieCreateComponent,
   ],
   imports: [ // module
     BrowserModule,
