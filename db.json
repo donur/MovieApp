@@ -34,15 +34,6 @@
       "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita amet fuga sit cum odio non fugit consequuntur incidunt voluptas architecto. Quos, cupiditate. Ipsa iure, accusantium dignissimos nostrum minima enim molestias!",
       "imageUrl": "adventure-1.jpeg",
       "categoryId": 1
-    },
-    {
-      "id": 6,
-      "title": "deneme",
-      "description": "lfkwlkfewekflalşfklşwflawdvkajdklfwflkwecşidlvcads",
-      "imageUrl": "4.jpeg",
-      "isPopular": false,
-      "datePublished": 1663570331735,
-      "categoryId": "2"
     }
   ],
   "categories": [
