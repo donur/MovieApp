@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from '../models/category';
 import { AlertifyService } from '../services/alertify.service';
@@ -15,7 +15,7 @@ import { MovieService } from '../services/movie.service';
 export class MovieCreateComponent implements OnInit {
   categories: Category[];
   model: any = {
-    categoryId: ""
+    categoryId: '',
   };
 
   constructor(
@@ -31,21 +31,40 @@ export class MovieCreateComponent implements OnInit {
     });
   }
 
+  movieForm = new FormGroup({
+    title: new FormControl('Movie title'),
+    description: new FormControl('Description'),
+    imageUrl: new FormControl('1.jpeg'),
+    categoryId: new FormControl('2'),
+  });
+
+  clearForm() {
+    this.movieForm.patchValue({
+      title: '',
+      description: '',
+      imageUrl: '',
+      categoryId: '',
+    });
+  }
+
   createMovie() {
+    console.log(this.movieForm);
+    console.log(this.movieForm.value);
+    console.log(this.movieForm.value.title);
 
-    const movie = {
-      id: 0,
-      title: this.model.title,
-      description: this.model.description,
-      imageUrl: this.model.imageUrl,
-      isPopular: false,
-      datePublished: new Date().getTime(),
-      categoryId: this.model.categoryId,
-    };
+    // const movie = {
+    //   id: 0,
+    //   title: this.model.title,
+    //   description: this.model.description,
+    //   imageUrl: this.model.imageUrl,
+    //   isPopular: false,
+    //   datePublished: new Date().getTime(),
+    //   categoryId: this.model.categoryId,
+    // };
 
-    this.movieService.createMovie(movie).subscribe(
-      (data) => this.router.navigate(['/movies', data.id]) // Create butonuna basıldığında movies list sayfasına yönlendirme yapar.
-    );
+    // this.movieService.createMovie(movie).subscribe(
+    //   (data) => this.router.navigate(['/movies', data.id]) // Create butonuna basıldığında movies list sayfasına yönlendirme yapar.
+    // );
   }
 
   log(value: any) {

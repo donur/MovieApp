@@ -1,39 +1,53 @@
 <h1>Create Movie</h1>
 
-<form #form="ngForm" (ngSubmit)="createMovie()">
+<form [formGroup]="movieForm" (ngSubmit)="createMovie()">
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
-    <input required minlength="5" #title="ngModel" (change)="log(title)" type="text" [(ngModel)]="model.title" name="title" class="form-control" />
-    <div class="alert alert-danger" *ngIf="title.invalid && title.touched">
+    <input
+      type="text"
+      name="title"
+      class="form-control"
+      formControlName="title"
+    />
+    value: {{ movieForm.value.title }}
+    <!-- <div class="alert alert-danger" *ngIf="title.invalid && title.touched">
       <p *ngIf="title.errors['required']">Gerekli Alan</p>
       <p *ngIf="title.errors['minlength']">Min 5 karakter girmelisiniz</p>
-    </div>
+    </div><div class="alert alert-danger" *ngIf="title.invalid && title.touched">
+      <p *ngIf="title.errors['required']">Gerekli Alan</p>
+      <p *ngIf="title.errors['minlength']">Min 5 karakter girmelisiniz</p>
+    </div> -->
   </div>
 
   <div class="mb-3">
     <label for="description" class="form-label">Description</label>
-    <textarea required class="form-control" [(ngModel)]="model.description" name="description" #description="ngModel"></textarea>
-    <div class="alert alert-danger" *ngIf="description.invalid && description.touched">Gerekli Alan</div>
-
+    <textarea
+      class="form-control"
+      name="description"
+      formControlName="description"
+    ></textarea>
   </div>
 
   <div class="mb-3">
     <label for="imageurl" class="form-label">ImageUrl</label>
-    <input required type="text" [(ngModel)]="model.imageUrl" name="imageUrl" class="form-control" #imageUrl="ngModel" />
-    <div class="alert alert-danger" *ngIf="imageUrl.invalid && imageUrl.touched">Gerekli Alan</div>
-
+    <input
+      type="text"
+      name="imageUrl"
+      class="form-control"
+      formControlName="imageUrl"
+    />
   </div>
 
   <div class="mb-3">
     <label for="categoryId" class="form-label">Category</label>
-    <select [(ngModel)]="model.categoryId" name="categoryId" class="form-select" #categoryId="ngModel">
+    <select name="categoryId" class="form-select" formControlName="categoryId">
       <option value="">Choose</option>
       <option *ngFor="let item of categories" [value]="item.id">
         {{ item.name }}
       </option>
     </select>
-    <div class="alert alert-danger" *ngIf="categoryId.invalid && categoryId.touched">Gerekli Alan</div>
   </div>
 
-  <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Create</button>
+  <button type="submit" class="btn btn-primary">Create</button>
+  <button class="btn btn-warning" (click)="clearForm()">Clear</button>
 </form>
