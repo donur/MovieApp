@@ -1,23 +1,35 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, pipe, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Movie } from '../models/movie';
 
 @Injectable()
 export class MovieService {
   url = 'http://localhost:3000/movies';
+  url_firebase = 'https://movie-app-647e8-default-rtdb.firebaseio.com/';
 
   constructor(private http: HttpClient) {}
 
   getMovies(categoryId: number): Observable<Movie[]> {
-    let newUrl = this.url;
+    let newUrl = this.url_firebase + '/movies.json';
 
     if (categoryId) {
       newUrl += '?categoryId=' + categoryId;
     }
 
     return this.http.get<Movie[]>(newUrl).pipe(
+      map((response) => {
+        const movies: Movie[] = [];
+        for (const key in response) {
+          movies.push({ ...response[key], id: key });
+        }
+        return movies;
+      }),
       tap((data) => console.log(data)),
       catchError(this.handleError)
     );
@@ -25,23 +37,24 @@ export class MovieService {
 
   createMovie(movie: Movie): Observable<Movie> {
     const httpOptions = {
-      headers: new HttpHeaders ({
-        'Content-Type':'application/json',
-        'Authorization': 'Token'
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Token',
+      }),
+    };
 
-      })
-    }
-
-    return this.http.post<Movie>(this.url, movie, httpOptions).pipe(
-      tap(data => console.log(data)),
-      catchError(this.handleError)
-    );
+    return this.http
+      .post<Movie>(this.url_firebase + '/movies.json', movie, httpOptions)
+      .pipe(
+        tap((data) => console.log(data)),
+        catchError(this.handleError)
+      );
   }
 
   getMovieById(movieId: number): Observable<Movie> {
-    return this.http.get<Movie>(this.url + "/" + movieId).pipe(
-        tap(data => console.log(data)),
-        catchError(this.handleError)
+    return this.http.get<Movie>(this.url + '/' + movieId).pipe(
+      tap((data) => console.log(data)),
+      catchError(this.handleError)
     );
   }
 

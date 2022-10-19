@@ -7,7 +7,7 @@ import { CategoryService } from '../services/category.service';
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
-  providers: [CategoryService]
+  providers: [CategoryService],
 })
 export class CategoryComponent implements OnInit {
   // categories = [ "Adventure", "Romance", "Drama", "Comedy"];
@@ -15,14 +15,12 @@ export class CategoryComponent implements OnInit {
   categories: Category[];
   selectedCategory: Category = null;
 
-  constructor(private categoryService: CategoryService) {
-    
-  }
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe(data => {
+    this.categoryService.getCategories().subscribe((data) => {
       this.categories = data;
-    })
+    });
   }
 
   displayAll = true;

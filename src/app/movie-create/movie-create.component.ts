@@ -39,7 +39,7 @@ export class MovieCreateComponent implements OnInit {
   });
 
   get title() {
-    return this.movieForm.get("title");
+    return this.movieForm.get('title');
   }
 
   clearForm() {
@@ -52,23 +52,23 @@ export class MovieCreateComponent implements OnInit {
   }
 
   createMovie() {
-    console.log(this.movieForm);
-    console.log(this.movieForm.value);
-    console.log(this.movieForm.value.title);
+    // console.log(this.movieForm);
+    // console.log(this.movieForm.value);
+    // console.log(this.movieForm.value.title);
 
-    // const movie = {
-    //   id: 0,
-    //   title: this.model.title,
-    //   description: this.model.description,
-    //   imageUrl: this.model.imageUrl,
-    //   isPopular: false,
-    //   datePublished: new Date().getTime(),
-    //   categoryId: this.model.categoryId,
-    // };
+    const movie = {
+      id: 0,
+      title: this.movieForm.value.title,
+      description: this.movieForm.value.description,
+      imageUrl: this.movieForm.value.imageUrl,
+      isPopular: false,
+      datePublished: new Date().getTime(),
+      categoryId: this.model.categoryId,
+    };
 
-    // this.movieService.createMovie(movie).subscribe(
-    //   (data) => this.router.navigate(['/movies', data.id]) // Create butonuna basıldığında movies list sayfasına yönlendirme yapar.
-    // );
+    this.movieService.createMovie(movie).subscribe(
+      (data) => this.router.navigate(['/movies', data.id]) // Create butonuna basıldığında movies list sayfasına yönlendirme yapar.
+    );
   }
 
   log(value: any) {
