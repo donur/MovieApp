@@ -6,11 +6,12 @@ import { MovieService } from '../services/movie.service';
 @Component({
   selector: 'app-movie-details',
   templateUrl: './movie-details.component.html',
-  styleUrls: ['./movie-details.component.scss'],
+  styleUrls: ['./movie-details.component.css'],
   providers: [MovieService],
 })
 export class MovieDetailsComponent implements OnInit {
   movie: Movie;
+  loading: boolean = false;
 
   constructor(
     private movieService: MovieService,
@@ -19,8 +20,10 @@ export class MovieDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
+      this.loading = true;
       this.movieService.getMovieById(params['movieId']).subscribe((data) => {
         this.movie = data;
+        this.loading = false;
       });
     });
   }

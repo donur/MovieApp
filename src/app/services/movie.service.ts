@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, pipe, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { Movie } from '../models/movie';
 
 @Injectable()
@@ -31,7 +31,8 @@ export class MovieService {
         return movies;
       }),
       tap((data) => console.log(data)),
-      catchError(this.handleError)
+      catchError(this.handleError),
+      delay(1000)
     );
   }
 
