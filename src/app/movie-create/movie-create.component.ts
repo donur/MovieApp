@@ -58,9 +58,9 @@ export class MovieCreateComponent implements OnInit {
 
     const movie = {
       id: 0,
-      title: this.movieForm.value.title,
-      description: this.movieForm.value.description,
-      imageUrl: this.movieForm.value.imageUrl,
+      title: this.model.title,
+      description: this.model.description, // description: this.model.description,
+      imageUrl: this.model.imageUrl,
       isPopular: false,
       datePublished: new Date().getTime(),
       categoryId: this.model.categoryId,

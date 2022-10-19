@@ -16,17 +16,17 @@ export class MovieService {
   constructor(private http: HttpClient) {}
 
   getMovies(categoryId: number): Observable<Movie[]> {
-    let newUrl = this.url_firebase + '/movies.json';
-
-    if (categoryId) {
-      newUrl += '?categoryId=' + categoryId;
-    }
-
-    return this.http.get<Movie[]>(newUrl).pipe(
+    return this.http.get<Movie[]>(this.url_firebase + 'movies.json').pipe(
       map((response) => {
         const movies: Movie[] = [];
         for (const key in response) {
-          movies.push({ ...response[key], id: key });
+          if (categoryId) {
+            if (categoryId === response[key].categoryId) {
+              movies.push({ ...response[key], id: key });
+            }
+          } else {
+            movies.push({ ...response[key], id: key });
+          }
         }
         return movies;
       }),
@@ -51,11 +51,13 @@ export class MovieService {
       );
   }
 
-  getMovieById(movieId: number): Observable<Movie> {
-    return this.http.get<Movie>(this.url + '/' + movieId).pipe(
-      tap((data) => console.log(data)),
-      catchError(this.handleError)
-    );
+  getMovieById(movieId: string): Observable<Movie> {
+    return this.http
+      .get<Movie>(this.url_firebase + 'movies/' + movieId + '.json')
+      .pipe(
+        tap((data) => console.log(data)),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: HttpErrorResponse) {
