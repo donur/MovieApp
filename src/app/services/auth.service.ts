@@ -1,26 +1,69 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-interface AuthResponse {
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-}
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { AuthResponse } from '../models/AuthResponse';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  url =
-    'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDkqNpTXAU4pqHWIaAUn5PaEjynSJxNKmc';
+  api_key = 'AIzaSyDkqNpTXAU4pqHWIaAUn5PaEjynSJxNKmc';
+
   constructor(private http: HttpClient) {}
+
   signUp(email: string, password: string) {
-    return this.http.post<AuthResponse>(this.url, {
-      email: email,
-      password: password,
-      returnSecureToken: true,
-    });
+    return this.http
+      .post<AuthResponse>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+          this.api_key,
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  login(email: string, password: string) {
+    return this.http
+      .post<AuthResponse>(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
+          this.api_key,
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(response: HttpErrorResponse) {
+    let message = 'hata oluştu.';
+
+    if (!navigator.onLine) {
+      message = 'internet bağlantınız yok.';
+      return throwError(message);
+    }
+
+    if (response.error.error) {
+      switch (response.error.error.message) {
+        case 'EMAIL_EXISTS':
+          message = 'mail adresi kullanılmış';
+          break;
+
+        case 'EMAIL_NOT_FOUND':
+          message = 'mail adresi bulunamadı';
+          break;
+
+        case 'INVALID_PASSWORD':
+          message = 'hatalı parola';
+          break;
+      }
+    }
+
+    return throwError(message);
   }
 }
