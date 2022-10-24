@@ -13,13 +13,15 @@ import { SummaryPipe } from './pipes/summary.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieFilterPipe } from './pipes/movie-filter.pipe';
 import { AlertifyService } from './services/alertify.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MovieCreateComponent } from './movie-create/movie-create.component';
 import { CategoryCreateComponent } from './category-create/category-create.component';
 import { AuthComponent } from './auth/auth.component';
+import { ErrorInterceptor } from './services/error.interceptor';
 
 @NgModule({
-  declarations: [ // components
+  declarations: [
+    // components
     AppComponent,
     NavbarComponent,
     CategoryComponent,
@@ -33,14 +35,18 @@ import { AuthComponent } from './auth/auth.component';
     CategoryCreateComponent,
     AuthComponent,
   ],
-  imports: [ // module
+  imports: [
+    // module
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [AlertifyService], // services
-  bootstrap: [AppComponent] // starter component
+  providers: [
+    AlertifyService,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ], // services
+  bootstrap: [AppComponent], // starter component
 })
-export class AppModule { }
+export class AppModule {}
